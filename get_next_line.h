@@ -1,6 +1,7 @@
 //나중에 뺄것
 #include <stdio.h>
 #include <fcntl.h>
+#include <limits.h>
 
 # ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
