@@ -16,12 +16,6 @@ int index_of(char *str, char c)
 
 int	assign_line(char **from, char **to, int size)
 {
-	// if(size == 0)
-	// {
-	// 	ft_strlcpy(*to, "", 0);
-	// 	*from = *from + 1;
-	// 	return (1);
-	// }
 	if(size == 0)
 	{
 		*to = malloc(1);
@@ -42,11 +36,9 @@ int	assign_line_last(char **from, char **to, int size)
 	{
 		*to = malloc(1);
 		*to[0] = 0;
-		// printf("\n:BEFORE:%s:\n", *from);
 		if(ft_strlen(*from) == 0)
 			return (0);
 		*from = *from + 1;
-		// printf("\n:AFTER:%s:\n", *from);
 		return (1);
 	}
 	if(!(*to = malloc(size + 1)))
@@ -69,12 +61,11 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	if (!(buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
-	// printf("\n?%s?\n", buf_save[fd]);
 	while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[size_read] = 0;
 		buf_save[fd] = ft_strjoin(buf_save[fd], buf);
-		if((index = index_of(buf_save[fd], '\n')) != -1)
+		if((index = index_of(buf_save[fd], '\n')) >= 0)
 			return (assign_line(&buf_save[fd], line, index));
 	}
 	if((index = index_of(buf_save[fd], '\n')) >= 0)

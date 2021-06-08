@@ -1,17 +1,8 @@
-//나중에 뺄것
-#include <stdio.h>
-#include <fcntl.h>
-#include <limits.h>
-
 # ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
 # include <stdlib.h>
 # include <unistd.h>
-
-# ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5000
-# endif
 
 # ifndef OPEN_MAX
 # define OPEN_MAX 32
