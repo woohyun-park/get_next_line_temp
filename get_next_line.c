@@ -16,7 +16,6 @@ int index_of(char *str, char c)
 
 int	assign_line(char **from, char **to, int size)
 {
-	
 	if(!(*to = malloc(size + 1)))
 		return (-1);
 	ft_strlcpy(*to, *from, size + 1);
@@ -73,6 +72,7 @@ int	main(void)
 	printf("%s\n", line);
 	free(line);
 	close(fd);
-	system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked && rm -rf leaks_result_temp");
+	
+	system("leaks a.out");
 	return (0);
 }
