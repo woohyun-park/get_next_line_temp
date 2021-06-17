@@ -7,8 +7,7 @@ char	*ft_strdup(const char *s1)
 	size_t		i;
 
 	len = ft_strlen(s1);
-	result = (char *)malloc(len + 1);
-	if (result == 0)
+	if(!(result = (char *)malloc(len + 1)))
 		return (NULL);
 	i = 0;
 	while (i < len)
@@ -25,10 +24,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len1;
 	int		len2;
 	char	*result;
-
-	// NULL 처리...
-	if(!(s1) || !(s2))
-		return (!(s1) ? ft_strdup(s2) : ft_strdup(s1));
 	
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);

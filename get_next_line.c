@@ -31,7 +31,7 @@ int	assign_line(char **from, char **to, int size)
 }
 
 int	assign_line_last(char **from, char **to, int size)
-{	
+{
 	if(size == 0)
 	{
 		*to = malloc(1);
@@ -57,6 +57,13 @@ int	get_next_line(int fd, char **line)
 	int			index;
 	int			size_read;
 
+	// if(!(buf_save))
+	// 	buf_save = (char **)malloc(sizeof(char *) * OPEN_MAX);
+	if(buf_save[fd] == NULL)
+	{
+		buf_save[fd] = malloc(1);
+		buf_save[fd][0] = 0;
+	}
 	if (fd < 0 || fd > OPEN_MAX || line == 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (!(buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
@@ -64,31 +71,39 @@ int	get_next_line(int fd, char **line)
 	while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[size_read] = 0;
-		buf_save[fd] = ft_strjoin(buf_save[fd], buf);
+		if(!(buf_save[fd] = ft_strjoin(buf_save[fd], buf)))
+		{
+			free(buf);
+			return (-1);
+		}
 		if((index = index_of(buf_save[fd], '\n')) >= 0)
+		{
+			free(buf);
 			return (assign_line(&buf_save[fd], line, index));
+		}
 	}
+	free(buf);
 	if((index = index_of(buf_save[fd], '\n')) >= 0)
-		return (assign_line_last(&buf_save[fd], line, index));
+		return (assign_line(&buf_save[fd], line, index));
 	return assign_line_last(&buf_save[fd], line, ft_strlen(buf_save[fd]));
 }
 
-// int	main(void)
-// {
-// 	int		temp;
-// 	int		fd;
-// 	char	*line;
+int	main(void)
+{
+	int		temp;
+	int		fd;
+	char	*line;
 
-// 	fd = open("test.txt", O_RDONLY);
-// 	while ((temp = (get_next_line(fd, &line)) > 0))
-// 	{
-// 		printf("|%s\n", line);
-// 		free(line);
-// 	}
-// 	printf("|%s\n", line);
-// 	free(line);
-// 	close(fd);
+	fd = open("test.txt", O_RDONLY);
+	while ((temp = (get_next_line(fd, &line)) > 0))
+	{
+		printf("|%s\n", line);
+		free(line);
+	}
+	printf("?%s\n", line);
+	free(line);
+	close(fd);
 	
-// 	system("leaks a.out");
-// 	return (0);
-// }
+	// system("leaks a.out");
+	return (0);
+}
