@@ -7,11 +7,11 @@
 # include <unistd.h>
 
 # ifndef OPEN_MAX
-# define OPEN_MAX 32
+# define OPEN_MAX 256
 # endif
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 5000
 # endif
 
 int	get_next_line(int fd, char **line);

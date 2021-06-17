@@ -25,71 +25,32 @@ int	assign_line(char **from, char **to, int size)
 		if(**from)
 			free(*from);
 		*from = temp;
-		// *from = *from + 1;
 		return (1);
 	}
 	if(!(*to = malloc(size + 1)))
 		return (-1);
 	ft_strlcpy(*to, *from, size + 1);
-
-	// temp = ft_strdup(*(from + size + 1));
-	// //printf(":%s:", *from);
-	// if(!(*from))
-	// 	free(*from);
-	// *from = temp;
 	temp = ft_strdup(*from + size + 1);
-	// printf("\nfrom:%s,\ntemp:%s,\n", *from, temp);
 	if(**from)
 		free(*from);
 	*from = temp;
-
-	// *from = *from + size + 1;
 	return (1);
 }
 
 int	assign_line_last(char **from, char **to, int size)
 {
-	// char *temp;
-
 	if(size == 0)
 	{
 		*to = ft_strdup("");
-			// if(**from)
-			// 	free(*from);
-		// if(**from)
 		free(*from);
 		*from = NULL;
 		return (0);
-		// temp = ft_strdup(*from + 1);
-		// if(**from)
-		// 	free(*from);
-		// *from = temp;
-		// return (1);
-		// *to = ft_strdup("");
-		// temp = ft_strdup(*from + 1);
-		// if(*from)
-		// 	free(*from);
-		// *from = temp;
-		// // *from = *from + 1;
-		// return (1);
 	}
 	if(!(*to = malloc(size + 1)))
 		return (-1);
 	ft_strlcpy(*to, *from, size + 1);
-
-	//printf(":%s:", *from);
-	// if(!(*from))
-	// 	free(*from);
-
-	// *from = *from + size + 1;
-	// if(**from)
 	free(*from);
 	*from = NULL;
-	// free(from);
-	// from = NULL;
-	// printf(":%s:", buf_save);
-	// buf_save = NULL;
-
 	return (0);
 }
 
@@ -114,15 +75,9 @@ int	get_next_line(int fd, char **line)
 			temp = ft_strjoin(buf_save[fd], buf);
 		else
 			temp = ft_strdup(buf);
-		//printf(":%s:", buf_save[fd]);
 		if(buf_save[fd])
 			free(buf_save[fd]);
 		buf_save[fd] = temp;
-		// else if(!(buf_save[fd] = ft_strjoin(buf_save[fd], buf)))
-		// {
-		// 	free(buf);
-		// 	return (-1);
-		// }
 		if((index = index_of(buf_save[fd], '\n')) >= 0)
 		{
 			free(buf);
