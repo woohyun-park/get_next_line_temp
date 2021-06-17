@@ -49,18 +49,22 @@ int	assign_line(char **from, char **to, int size)
 
 int	assign_line_last(char **from, char **to, int size)
 {
-	char *temp;
+	// char *temp;
 
 	if(size == 0)
 	{
 		*to = ft_strdup("");
-		if(!**from)
-			return (0);
-		temp = ft_strdup(*from + 1);
-		if(**from)
-			free(*from);
-		*from = temp;
-		return (1);
+			// if(**from)
+			// 	free(*from);
+		// if(**from)
+		free(*from);
+		*from = NULL;
+		return (0);
+		// temp = ft_strdup(*from + 1);
+		// if(**from)
+		// 	free(*from);
+		// *from = temp;
+		// return (1);
 		// *to = ft_strdup("");
 		// temp = ft_strdup(*from + 1);
 		// if(*from)
@@ -78,9 +82,13 @@ int	assign_line_last(char **from, char **to, int size)
 	// 	free(*from);
 
 	// *from = *from + size + 1;
-	if(**from)
-		free(*from);
+	// if(**from)
+	free(*from);
 	*from = NULL;
+	// free(from);
+	// from = NULL;
+	// printf(":%s:", buf_save);
+	// buf_save = NULL;
 
 	return (0);
 }
@@ -97,6 +105,8 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	if (!(buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
+	if(!buf_save[fd])
+		buf_save[fd] = ft_strdup("");
 	while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[size_read] = 0;
@@ -140,6 +150,7 @@ int	get_next_line(int fd, char **line)
 // 	printf("?%s\n", line);
 // 	free(line);
 // 	close(fd);
+	
 	
 // 	// system("leaks a.out");
 // 	return (0);
