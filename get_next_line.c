@@ -45,9 +45,10 @@ int	assign_line_last(char **from, char **to, int size)
 		return (-1);
 	ft_strlcpy(*to, *from, size + 1);
 	*from = *from + size + 1;
-	if(ft_strlen(*from) == 0)
-		return (0);
-	return (1);
+	return (0);
+	// if(ft_strlen(*from) == 0)
+	// 	return (0);
+	// return (1);
 }
 
 int	get_next_line(int fd, char **line)
@@ -57,13 +58,6 @@ int	get_next_line(int fd, char **line)
 	int			index;
 	int			size_read;
 
-	// if(!(buf_save))
-	// 	buf_save = (char **)malloc(sizeof(char *) * OPEN_MAX);
-	// if(buf_save[fd] == NULL)
-	// {
-	// 	buf_save[fd] = malloc(1);
-	// 	buf_save[fd][0] = 0;
-	// }
 	if (fd < 0 || fd > OPEN_MAX || line == 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (!(buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
