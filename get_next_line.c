@@ -59,11 +59,11 @@ int	get_next_line(int fd, char **line)
 
 	// if(!(buf_save))
 	// 	buf_save = (char **)malloc(sizeof(char *) * OPEN_MAX);
-	if(buf_save[fd] == NULL)
-	{
-		buf_save[fd] = malloc(1);
-		buf_save[fd][0] = 0;
-	}
+	// if(buf_save[fd] == NULL)
+	// {
+	// 	buf_save[fd] = malloc(1);
+	// 	buf_save[fd][0] = 0;
+	// }
 	if (fd < 0 || fd > OPEN_MAX || line == 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (!(buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
@@ -71,7 +71,9 @@ int	get_next_line(int fd, char **line)
 	while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[size_read] = 0;
-		if(!(buf_save[fd] = ft_strjoin(buf_save[fd], buf)))
+		if(buf_save[fd] == NULL)
+			buf_save[fd] = ft_strdup(buf);
+		else if(!(buf_save[fd] = ft_strjoin(buf_save[fd], buf)))
 		{
 			free(buf);
 			return (-1);
