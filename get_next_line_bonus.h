@@ -7,7 +7,7 @@
 # include <unistd.h>
 
 # ifndef OPEN_MAX
-# define OPEN_MAX 32
+# define OPEN_MAX 64
 # endif
 
 # ifndef BUFFER_SIZE
