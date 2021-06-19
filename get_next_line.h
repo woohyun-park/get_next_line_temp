@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:16:21 by woopark           #+#    #+#             */
-/*   Updated: 2021/06/19 13:18:55 by woopark          ###   ########.fr       */
+/*   Updated: 2021/06/19 13:20:12 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdio.h>
 # include <fcntl.h>
-# include <stdlib.h>˙
+# include <stdlib.h>
 # include <unistd.h>
 
 # ifndef OPEN_MAX
