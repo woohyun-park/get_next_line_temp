@@ -6,15 +6,13 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:16:21 by woopark           #+#    #+#             */
-/*   Updated: 2021/06/19 13:19:00 by woopark          ###   ########.fr       */
+/*   Updated: 2021/06/19 13:21:34 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
-# include <stdio.h>
-# include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
 
