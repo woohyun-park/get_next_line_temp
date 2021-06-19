@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/06/19 13:56:10 by woopark          ###   ########.fr       */
+/*   Updated: 2021/06/19 15:25:33 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int	index_of(char *str, char c)
 
 int	assign_line(char **from, char **to, int size)
 {
-	char	*line;
+	char	*temp;
 
 	if (!(*to = malloc(size + 1)))
 		return (-1);
 	ft_strlcpy(*to, *from, size + 1);
-	line = ft_strdup(*from + size + 1);
+	temp = ft_strdup(*from + size + 1);
 	free(*from);
-	*from = line;
+	*from = temp;
 	return (1);
 }
 
