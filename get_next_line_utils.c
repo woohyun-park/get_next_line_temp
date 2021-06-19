@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/19 12:22:58 by woopark           #+#    #+#             */
+/*   Updated: 2021/06/19 13:18:57 by woopark          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*ft_strdup(const char *s1)
@@ -7,7 +19,7 @@ char	*ft_strdup(const char *s1)
 	size_t		i;
 
 	len = ft_strlen(s1);
-	if(!(result = (char *)malloc(len + 1)))
+	if (!(result = (char *)malloc(len + 1)))
 		return (NULL);
 	i = 0;
 	while (i < len)
@@ -24,7 +36,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len1;
 	int		len2;
 	char	*result;
-	
+
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	if (!(result = malloc(len1 + len2 + 1)))
