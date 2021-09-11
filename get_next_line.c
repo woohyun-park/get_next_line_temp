@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/11 10:51:14 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/11 20:06:27 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,11 @@ int	read_and_assign_line(int fd, char *buf, char **save, char **result)
 		size_read = read(fd, buf, BUFFER_SIZE);
 	}
 	free(buf);
-	if (size_read < 0)
+	if (size_read <= 0)
 	{
 		// printf("here\n");
-		free(*save);
+		if(!*save)
+			free(*save);
 		*result = NULL;
 		return (-1);
 	}
@@ -205,4 +206,11 @@ char	*get_next_line(int fd)
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
+// }
+
+// #include <stdio.h>
+// #include <fcntl.h>
+// int main(void){
+// 	int file = open("null.txt", O_RDWR);
+// 	printf("-%s-", get_next_line(file));
 // }
