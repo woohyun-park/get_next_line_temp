@@ -1,23 +1,14 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "(lldb) Launch",
-			"type": "cppdbg",
-			"request": "launch",
-			"program": "enter program name, for example ${workspaceFolder}/a.out",
-			"args": [],
-			"stopAtEntry": false,
-			"cwd": "${fileDirname}",
-			"environment": [],
-			"externalConsole": false,
-			"MIMode": "lldb"
-		},
-		{
-			"type": "node-terminal",
-			"name": "JavaScript Debug Terminal",
-			"request": "launch",
-			"cwd": "${workspaceFolder}"
-		}
-	]
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Lldb debug",
+            "program": "a.out",
+            "args": [],
+            "cwd": "${workspaceRoot}"
+        }
+    ]
 }
