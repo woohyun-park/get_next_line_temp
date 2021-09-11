@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/11 22:26:58 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 00:47:27 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*assign_line(char **from, int size)
 	return (result);
 }
 
-char	*assign_line_last(char **from, int size, char **save)
+char	*assign_line_last(char **from, int size)
 {
 	char	*result;
 
@@ -52,7 +52,6 @@ char	*assign_line_last(char **from, int size, char **save)
 	ft_strlcpy(result, *from, size + 1);
 	free(*from);
 	*from = NULL;
-	free(*save);
 	return (result);
 }
 
@@ -113,7 +112,7 @@ int	read_and_assign_line(int fd, char *buf, char **save, char **result)
 	int		size_read;
 
 	size_read = read(fd, buf, BUFFER_SIZE);
-	if (size_read <= 0)
+	if (size_read <= 0 && ft_strlen(*save) == 0)
 		return (-1);
 	while (size_read > 0)
 	{
@@ -131,13 +130,13 @@ int	read_and_assign_line(int fd, char *buf, char **save, char **result)
 		size_read = read(fd, buf, BUFFER_SIZE);
 	}
 	free(buf);
-	// if (size_read < 0)
-	// {
-	// 	if (!*save)
-	// 		free(*save);
-	// 	*result = NULL;
-	// 	return (-1);
-	// }
+	if (size_read < 0)
+	{
+		if (!*save)
+			free(*save);
+		*result = NULL;
+		return (-1);
+	}
 	return (1);
 }
 
@@ -165,7 +164,7 @@ char	*get_next_line(int fd)
 		if (index >= 0)
 			result = assign_line(&save[fd], index);
 		else
-			result = assign_line_last(&save[fd], ft_strlen(save[fd]), &save[fd]);
+			result = assign_line_last(&save[fd], ft_strlen(save[fd]));
 	}
 	return (result);
 }
@@ -174,6 +173,8 @@ char	*get_next_line(int fd)
 // #include <fcntl.h>
 // int main(void){
 // 	int file = open("text.txt", O_RDWR);
+// 	printf("-%s", get_next_line(file));
+// 	printf("-%s", get_next_line(file));
 // 	printf("-%s", get_next_line(file));
 // 	printf("-%s", get_next_line(file));
 // }
