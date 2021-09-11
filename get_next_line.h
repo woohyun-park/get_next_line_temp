@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:16:21 by woopark           #+#    #+#             */
-/*   Updated: 2021/06/19 18:17:44 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/11 09:58:27 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #  define BUFFER_SIZE 1024
 # endif
 
-int		get_next_line(int fd, char **line);
+char	*get_next_line(int fd);
 
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
