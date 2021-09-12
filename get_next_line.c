@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 21:40:02 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:48:28 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	read_and_assign_line(int fd, char *buf, char **save, char **result)
 	{
 		free(*save);
 		*save = NULL;
-		*result = NULL;
 		return (-1);
 	}
 	return (1);

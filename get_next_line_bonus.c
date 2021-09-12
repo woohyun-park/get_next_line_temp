@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 20:09:44 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:50:46 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	read_and_assign_line(int fd, char *buf, char **save, char **result)
 	if (size_read <= 0 && ft_strlen(*save) == 0)
 	{
 		free(buf);
+		free(*save);
+		*save = NULL;
 		return (-1);
 	}
 	while (size_read > 0)
@@ -90,7 +92,7 @@ int	read_and_assign_line(int fd, char *buf, char **save, char **result)
 	if (size_read < 0)
 	{
 		free(*save);
-		*result = NULL;
+		*save = NULL;
 		return (-1);
 	}
 	return (1);
