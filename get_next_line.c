@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 18:16:58 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 18:55:06 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,7 @@ char	*get_next_line(int fd)
 // #include <fcntl.h>
 // int main(void){
 // 	int file = open("text.txt", O_RDWR);
-// 	printf("-%s", get_next_line(file));
-// 	printf("-%s", get_next_line(file));
-// 	printf("-%s", get_next_line(file));
-// 	printf("-%s", get_next_line(file));
+// 	char *test = get_next_line(file);
+// 	printf("-%s", test);
+// 	free(test);
 // }
