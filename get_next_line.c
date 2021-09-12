@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 21:48:28 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 21:54:20 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,15 +126,3 @@ char	*get_next_line(int fd)
 	}
 	return (result);
 }
-
-// #include <stdio.h>
-// #include <fcntl.h>
-// int main(void)
-// {
-// 	int file = open("test.txt", O_RDWR);
-// 	close(file);
-
-// 	char *test = get_next_line(file);
-// 	printf("%s", test);
-// 	free(test);
-// }
