@@ -6,12 +6,11 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 18:55:06 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 20:07:57 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 int	index_of(char *str, char c)
 {
@@ -27,7 +26,7 @@ int	index_of(char *str, char c)
 	return (-1);
 }
 
-char	*assign_line(char **from, int size)
+char	*assign_line(char **from, int size, int is_last)
 {
 	char	*temp;
 	char	*result;
@@ -35,80 +34,44 @@ char	*assign_line(char **from, int size)
 	result = malloc(sizeof(char) * (size + 1));
 	if (!result)
 		return (0);
-	ft_strlcpy(result, *from, size + 2);
-	temp = ft_strdup(*from + size + 1);
-	free(*from);
-	*from = temp;
-	return (result);
-}
-
-char	*assign_line_last(char **from, int size)
-{
-	char	*result;
-
-	result = malloc(sizeof(char) * (size + 1));
-	if (!result)
-		return (0);
+	if (!is_last)
+	{
+		ft_strlcpy(result, *from, size + 2);
+		temp = ft_strdup(*from + size + 1);
+		free(*from);
+		*from = temp;
+		return (result);
+	}
 	ft_strlcpy(result, *from, size + 1);
 	free(*from);
 	*from = NULL;
 	return (result);
 }
 
-// int	read_and_assign_line(int fd, char *buf, char **save)
-// {
-// 	char	*temp;
-// 	int		index;
-// 	int		size_read;
-
-// 	while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
-// 	{
-// 		(buf)[size_read] = 0;
-// 		temp = *save ? ft_strjoin(*save, buf) : ft_strdup(buf);
-// 		free(*save);
-// 		*save = temp;
-// 		if ((index = index_of(*save, '\n')) >= 0)
-// 		{
-// 			free(buf);
-// 			return (assign_line(save, index));
-// 		}
-// 	}
-// 	free(buf);
-// 	if (size_read < 0)
-// 	{
-// 		free(*save);
-// 		return (0);
-// 	}
-// 	return (0);
-// }
-
-// char	*get_next_line(int fd)
-// {
-// 	static char	*save[OPEN_MAX];
-// 	char		*buf;
-// 	int			index;
-// 	int			result;
-
-// 	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
-// 		return (-1);
-// 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-// 	if (!buf)
-// 		return (-1);
-// 	if (!save[fd])
-// 		save[fd] = ft_strdup("");
-// 	result = read_and_assign_line(fd, line, buf, &save[fd]);
-// 	index = index = index_of(save[fd], '\n');
-// 	if (result != 0)
-// 		return (result);
-// 	if (index >= 0)
-// 		return = assign_line(&save[fd], index);
-// 	return = assign_line_last(&save[fd], ft_strlen(save[fd]));
-// }
-
-int	read_and_assign_line(int fd, char *buf, char **save, char **result)
+int	read_line(char *buf, char **save, char **result, int size_read)
 {
 	char	*temp;
 	int		index;
+
+	(buf)[size_read] = 0;
+	if (*save)
+		temp = ft_strjoin(*save, buf);
+	else
+		temp = ft_strdup(buf);
+	free(*save);
+	*save = temp;
+	index = index_of(*save, '\n');
+	if (index >= 0)
+	{
+		free(buf);
+		*result = assign_line(save, index, 0);
+		return (0);
+	}
+	return (1);
+}
+
+int	read_and_assign_line(int fd, char *buf, char **save, char **result)
+{
 	int		size_read;
 
 	size_read = read(fd, buf, BUFFER_SIZE);
@@ -119,24 +82,14 @@ int	read_and_assign_line(int fd, char *buf, char **save, char **result)
 	}
 	while (size_read > 0)
 	{
-		(buf)[size_read] = 0;
-		temp = *save ? ft_strjoin(*save, buf) : ft_strdup(buf);
-		free(*save);
-		*save = temp;
-		index = index_of(*save, '\n');
-		if (index >= 0)
-		{
-			free(buf);
-			*result = assign_line(save, index);
+		if (!read_line(buf, save, result, size_read))
 			return (0);
-		}
 		size_read = read(fd, buf, BUFFER_SIZE);
 	}
 	free(buf);
 	if (size_read < 0)
 	{
-		if (!*save)
-			free(*save);
+		free(*save);
 		*result = NULL;
 		return (-1);
 	}
@@ -165,18 +118,23 @@ char	*get_next_line(int fd)
 	{
 		index = index_of(save[fd], '\n');
 		if (index >= 0)
-			result = assign_line(&save[fd], index);
+			result = assign_line(&save[fd], index, 0);
 		else
-			result = assign_line_last(&save[fd], ft_strlen(save[fd]));
+			result = assign_line(&save[fd], ft_strlen(save[fd]), 1);
 	}
 	return (result);
 }
 
 // #include <stdio.h>
 // #include <fcntl.h>
-// int main(void){
-// 	int file = open("text.txt", O_RDWR);
-// 	char *test = get_next_line(file);
-// 	printf("-%s", test);
-// 	free(test);
+// int main(void)
+// {
+// 	int		file = open("text.txt", O_RDWR);
+// 	char	*line;
+
+// 	line = get_next_line(file);
+// 	printf("%s", line);
+// 	line = get_next_line(file);
+// 	printf("%s", line);
+// 	system("leaks a.out");
 // }
