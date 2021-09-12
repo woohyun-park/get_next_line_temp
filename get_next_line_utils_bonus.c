@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:22:58 by woopark           #+#    #+#             */
-/*   Updated: 2021/06/19 13:18:57 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 20:10:08 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*ft_strdup(const char *s1)
 	size_t		i;
 
 	len = ft_strlen(s1);
-	if (!(result = (char *)malloc(len + 1)))
+	result = (char *)malloc(len + 1);
+	if (!result)
 		return (NULL);
 	i = 0;
 	while (i < len)
@@ -39,7 +40,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	if (!(result = malloc(len1 + len2 + 1)))
+	result = malloc(len1 + len2 + 1);
+	if (!result)
 		return (NULL);
 	ft_strlcpy(result, s1, len1 + 1);
 	ft_strlcat(result + len1, s2, len2 + 1);

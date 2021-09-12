@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 20:07:57 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 20:11:43 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,17 +124,3 @@ char	*get_next_line(int fd)
 	}
 	return (result);
 }
-
-// #include <stdio.h>
-// #include <fcntl.h>
-// int main(void)
-// {
-// 	int		file = open("text.txt", O_RDWR);
-// 	char	*line;
-
-// 	line = get_next_line(file);
-// 	printf("%s", line);
-// 	line = get_next_line(file);
-// 	printf("%s", line);
-// 	system("leaks a.out");
-// }

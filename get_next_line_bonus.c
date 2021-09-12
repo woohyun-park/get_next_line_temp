@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/06/19 18:19:30 by woopark          ###   ########.fr       */
+/*   Updated: 2021/09/12 20:09:44 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,74 +26,101 @@ int	index_of(char *str, char c)
 	return (-1);
 }
 
-int	assign_line(char **from, char **to, int size)
+char	*assign_line(char **from, int size, int is_last)
 {
 	char	*temp;
+	char	*result;
 
-	if (!(*to = malloc(size + 1)))
-		return (-1);
-	ft_strlcpy(*to, *from, size + 1);
-	temp = ft_strdup(*from + size + 1);
-	free(*from);
-	*from = temp;
-	return (1);
-}
-
-int	assign_line_last(char **from, char **to, int size)
-{
-	if (!(*to = malloc(size + 1)))
-		return (-1);
-	ft_strlcpy(*to, *from, size + 1);
+	result = malloc(sizeof(char) * (size + 1));
+	if (!result)
+		return (0);
+	if (!is_last)
+	{
+		ft_strlcpy(result, *from, size + 2);
+		temp = ft_strdup(*from + size + 1);
+		free(*from);
+		*from = temp;
+		return (result);
+	}
+	ft_strlcpy(result, *from, size + 1);
 	free(*from);
 	*from = NULL;
-	return (0);
+	return (result);
 }
 
-int	read_and_assign_line(int fd, char **line, char *buf, char **save)
+int	read_line(char *buf, char **save, char **result, int size_read)
 {
 	char	*temp;
 	int		index;
+
+	(buf)[size_read] = 0;
+	if (*save)
+		temp = ft_strjoin(*save, buf);
+	else
+		temp = ft_strdup(buf);
+	free(*save);
+	*save = temp;
+	index = index_of(*save, '\n');
+	if (index >= 0)
+	{
+		free(buf);
+		*result = assign_line(save, index, 0);
+		return (0);
+	}
+	return (1);
+}
+
+int	read_and_assign_line(int fd, char *buf, char **save, char **result)
+{
 	int		size_read;
 
-	while ((size_read = read(fd, buf, BUFFER_SIZE)) > 0)
+	size_read = read(fd, buf, BUFFER_SIZE);
+	if (size_read <= 0 && ft_strlen(*save) == 0)
 	{
-		(buf)[size_read] = 0;
-		temp = *save ? ft_strjoin(*save, buf) : ft_strdup(buf);
-		free(*save);
-		*save = temp;
-		if ((index = index_of(*save, '\n')) >= 0)
-		{
-			free(buf);
-			return (assign_line(save, line, index));
-		}
+		free(buf);
+		return (-1);
+	}
+	while (size_read > 0)
+	{
+		if (!read_line(buf, save, result, size_read))
+			return (0);
+		size_read = read(fd, buf, BUFFER_SIZE);
 	}
 	free(buf);
 	if (size_read < 0)
 	{
 		free(*save);
+		*result = NULL;
 		return (-1);
 	}
-	return (0);
+	return (1);
 }
 
-int	get_next_line(int fd, char **line)
+char	*get_next_line(int fd)
 {
 	static char	*save[OPEN_MAX];
 	char		*buf;
 	int			index;
-	int			result;
+	int			status;
+	char		*result;
 
-	if (fd < 0 || fd > OPEN_MAX || line == 0 || BUFFER_SIZE <= 0)
-		return (-1);
-	if (!(buf = malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-		return (-1);
+	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
+		return (0);
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (0);
 	if (!save[fd])
 		save[fd] = ft_strdup("");
-	if ((result = read_and_assign_line(fd, line, buf, &save[fd])) != 0)
-		;
-	else if ((index = index_of(save[fd], '\n')) >= 0)
-		result = assign_line(&save[fd], line, index);
-	else
-		result = assign_line_last(&save[fd], line, ft_strlen(save[fd]));
+	status = read_and_assign_line(fd, buf, &save[fd], &result);
+	if (status == -1)
+		return (NULL);
+	if (status == 1)
+	{
+		index = index_of(save[fd], '\n');
+		if (index >= 0)
+			result = assign_line(&save[fd], index, 0);
+		else
+			result = assign_line(&save[fd], ft_strlen(save[fd]), 1);
+	}
 	return (result);
 }
