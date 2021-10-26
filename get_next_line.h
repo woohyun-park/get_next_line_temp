@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:16:21 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/13 22:04:47 by woopark          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:48:29 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 # ifndef OPEN_MAX
-#  define OPEN_MAX 8192
+#  define OPEN_MAX 256
 # endif
 
 # ifndef BUFFER_SIZE
