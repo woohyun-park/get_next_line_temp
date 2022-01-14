@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:22:58 by woopark           #+#    #+#             */
-/*   Updated: 2022/01/14 13:11:11 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/14 14:43:14 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len2;
 	char	*result;
 
-	if(!s1 || !s2)
+	if (!s1 || !s2)
 	{
-		if(!s1)
+		if (!s1)
 			return (ft_strdup(s2));
 		return (ft_strdup(s1));
 	}
@@ -63,7 +63,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 
 	len_dst = ft_strlen(dst);
 	len_src = ft_strlen(src);
-	if(dstsize == 0)
+	if (dstsize == 0)
 		return (len_src);
 	if (dstsize < len_dst + 1)
 		return (len_src + dstsize);

@@ -6,11 +6,11 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:22:58 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 20:10:08 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/14 14:43:57 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strdup(const char *s1)
 {
@@ -19,11 +19,11 @@ char	*ft_strdup(const char *s1)
 	size_t		i;
 
 	len = ft_strlen(s1);
-	result = (char *)malloc(len + 1);
+	result = (char *)malloc(sizeof(char) * len + 1);
 	if (!result)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (s1[i])
 	{
 		result[i] = s1[i];
 		i++;
@@ -38,6 +38,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len2;
 	char	*result;
 
+	if (!s1 || !s2)
+	{
+		if (!s1)
+			return (ft_strdup(s2));
+		return (ft_strdup(s1));
+	}
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	result = malloc(len1 + len2 + 1);
@@ -53,34 +59,34 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	size_t	len_dst;
 	size_t	len_src;
 	size_t	i;
+	size_t	j;
 
 	len_dst = ft_strlen(dst);
 	len_src = ft_strlen(src);
+	if (dstsize == 0)
+		return (len_src);
 	if (dstsize < len_dst + 1)
-		return (dstsize + len_src);
-	i = 0;
-	while (i < len_src && len_dst + i < dstsize - 1)
-	{
-		dst[len_dst + i] = src[i];
-		i++;
-	}
-	dst[len_dst + i] = 0;
-	return (len_dst + len_src);
+		return (len_src + dstsize);
+	i = len_dst;
+	j = 0;
+	while (src[j] && i < (dstsize - 1))
+		dst[i++] = src[j++];
+	dst[i] = 0;
+	return (len_src + dstsize);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
-	if (dstsize == 0)
-		return (ft_strlen(src));
 	i = 0;
-	while (src[i] && i < dstsize - 1)
+	while (src[i] && i + 1 < dstsize)
 	{
 		dst[i] = src[i];
 		i++;
 	}
-	dst[i] = 0;
+	if (dstsize > 0)
+		dst[i] = 0;
 	return (ft_strlen(src));
 }
 

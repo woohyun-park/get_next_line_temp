@@ -6,16 +6,13 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2022/01/14 14:34:40 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/14 14:42:45 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-#include <stdio.h>
-#include <fcntl.h>
-
-int		is_line(char *str)
+int	is_line(char *str)
 {
 	int	i;
 
@@ -31,32 +28,28 @@ int		is_line(char *str)
 
 char	*create_next_line(char **save, int index)
 {
-	char *result;
-	char *tmp_result;
-	char *tmp;
+	char	*result;
+	char	*tmp_result;
+	char	*tmp;
 
 	(*save)[index] = 0;
 	result = ft_strdup(*save);
-	// printf("result: !%s!\n", result);
 	tmp_result = ft_strjoin(result, "\n");
 	free(result);
 	result = tmp_result;
-	// printf("result: !%s!\n", result);
 	if (*(*save + index + 1) == '\0')
 		tmp = 0;
 	else
 		tmp = ft_strdup((*save) + index + 1);
-	// printf("tmp: !%s!\n", tmp);
 	free(*save);
 	*save = tmp;
-	return result;
+	return (result);
 }
 
 char	*create_last_line(char **save, int size)
 {
-	int	index;
-	char *result;
-	// char	*tmp;
+	int		index;
+	char	*result;
 
 	if (size < 0)
 		return (0);
@@ -69,7 +62,7 @@ char	*create_last_line(char **save, int size)
 		*save = 0;
 		return (result);
 	}
-	return create_next_line(save, index);
+	return (create_next_line(save, index));
 }
 
 char	*get_next_line(int fd)
@@ -91,15 +84,8 @@ char	*get_next_line(int fd)
 		save[fd] = tmp;
 		index = is_line(save[fd]);
 		if (index >= 0)
-			return create_next_line(&save[fd], index);
+			return (create_next_line(&save[fd], index));
 		size_read = read(fd, buf, BUFFER_SIZE);
 	}
-	return create_last_line(&save[fd], size_read);
+	return (create_last_line(&save[fd], size_read));
 }
-
-// int main(){
-// 	int fd;
-// 	fd = open("gnlTester/files/multiple_nlx5", O_RDWR);
-// 	printf(":%s:", get_next_line(fd));
-// 	printf(":%s:", get_next_line(fd));
-// }
