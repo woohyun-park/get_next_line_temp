@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2022/01/14 14:42:45 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/14 15:22:46 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,13 @@ int	is_line(char *str)
 char	*create_next_line(char **save, int index)
 {
 	char	*result;
-	char	*tmp_result;
 	char	*tmp;
 
 	(*save)[index] = 0;
-	result = ft_strdup(*save);
-	tmp_result = ft_strjoin(result, "\n");
-	free(result);
-	result = tmp_result;
-	if (*(*save + index + 1) == '\0')
+	tmp = ft_strdup(*save);
+	result = ft_strjoin(tmp, "\n");
+	free(tmp);
+	if (*(*save + index + 1) == 0)
 		tmp = 0;
 	else
 		tmp = ft_strdup((*save) + index + 1);
@@ -51,9 +49,7 @@ char	*create_last_line(char **save, int size)
 	int		index;
 	char	*result;
 
-	if (size < 0)
-		return (0);
-	if (!*save)
+	if (size < 0 || !*save)
 		return (0);
 	index = is_line(*save);
 	if (index < 0)
