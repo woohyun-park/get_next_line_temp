@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:16:21 by woopark           #+#    #+#             */
-/*   Updated: 2021/10/26 14:48:29 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/14 12:00:41 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # ifndef OPEN_MAX
 #  define OPEN_MAX 256
 # endif
+
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024

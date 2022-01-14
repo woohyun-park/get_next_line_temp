@@ -6,123 +6,107 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2021/09/12 21:54:20 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/14 13:44:47 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	index_of(char *str, char c)
+#include <stdio.h>
+#include <fcntl.h>
+
+int		is_line(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == '\n')
 			return (i);
 		i++;
 	}
 	return (-1);
 }
 
-char	*assign_line(char **from, int size, int is_last)
+char	*create_next_line(char **save, int index)
 {
-	char	*temp;
+	char	*tmp;
+	char	*tmp2;
 	char	*result;
 
-	result = malloc(sizeof(char) * (size + 1));
-	if (!result)
+	result = (char *) malloc(sizeof(char) * index + 1);
+	ft_strlcpy(result, *save, index + 1);
+	tmp2 = ft_strjoin(result, "\n");
+	free(result);
+	result = tmp2;
+	
+	// (*save)[index + 1] = 0;
+	// (*save)[index] = '\n';
+	// result = ft_strdup(*save);
+	if (* (*save + index + 1) == 0)
+		tmp = 0;
+	else
+		tmp = ft_strdup((*save) + index + 1);
+	free(*save);
+	*save = tmp;
+	return result;
+}
+
+char	*create_last_line(char **save, int size)
+{
+	int	index;
+	char *result;
+	char	*tmp;
+
+	if (size < 0)
 		return (0);
-	if (!is_last)
+	if (!*save)
+		return (0);
+	index = is_line(*save);
+	if (index < 0)
 	{
-		ft_strlcpy(result, *from, size + 2);
-		temp = ft_strdup(*from + size + 1);
-		free(*from);
-		*from = temp;
+		result = *save;
+		*save = 0;
 		return (result);
 	}
-	ft_strlcpy(result, *from, size + 1);
-	free(*from);
-	*from = NULL;
-	return (result);
-}
 
-int	read_line(char *buf, char **save, char **result, int size_read)
-{
-	char	*temp;
-	int		index;
+	result = ft_strdup(*save);
+	tmp = ft_strjoin(result, "\n");
+	free(result);
+	result = tmp;
+	return result;
 
-	(buf)[size_read] = 0;
-	if (*save)
-		temp = ft_strjoin(*save, buf);
-	else
-		temp = ft_strdup(buf);
-	free(*save);
-	*save = temp;
-	index = index_of(*save, '\n');
-	if (index >= 0)
-	{
-		free(buf);
-		*result = assign_line(save, index, 0);
-		return (0);
-	}
-	return (1);
-}
-
-int	read_and_assign_line(int fd, char *buf, char **save, char **result)
-{
-	int		size_read;
-
-	size_read = read(fd, buf, BUFFER_SIZE);
-	if (size_read <= 0 && ft_strlen(*save) == 0)
-	{
-		free(buf);
-		free(*save);
-		*save = NULL;
-		return (-1);
-	}
-	while (size_read > 0)
-	{
-		if (!read_line(buf, save, result, size_read))
-			return (0);
-		size_read = read(fd, buf, BUFFER_SIZE);
-	}
-	free(buf);
-	if (size_read < 0)
-	{
-		free(*save);
-		*save = NULL;
-		return (-1);
-	}
-	return (1);
+	// return create_next_line(save, index);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*save[OPEN_MAX];
-	char		*buf;
+	char		buf[BUFFER_SIZE + 1];
 	int			index;
-	int			status;
-	char		*result;
+	int			size_read;
 
 	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
 		return (0);
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (0);
-	if (!save[fd])
-		save[fd] = ft_strdup("");
-	status = read_and_assign_line(fd, buf, &save[fd], &result);
-	if (status == -1)
-		return (NULL);
-	if (status == 1)
+	size_read = read(fd, buf, BUFFER_SIZE);
+	while (size_read > 0)
 	{
-		index = index_of(save[fd], '\n');
+		buf[size_read] = 0;
+		free(save[fd]);
+		save[fd] = ft_strjoin(save[fd], buf);
+		index = is_line(save[fd]);
 		if (index >= 0)
-			result = assign_line(&save[fd], index, 0);
-		else
-			result = assign_line(&save[fd], ft_strlen(save[fd]), 1);
+			return create_next_line(&save[fd], index);
+		size_read = read(fd, buf, BUFFER_SIZE);
 	}
-	return (result);
+	return create_last_line(&save[fd], size_read);
 }
+
+// int main(){
+// 	int fd;
+// 	fd = open("41_with_nl", O_RDWR);
+// 	printf(":%s:", get_next_line(fd));
+// 	printf(":%s:", get_next_line(fd));
+// 	printf(":%s:", get_next_line(fd));
+// }
