@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:22:58 by woopark           #+#    #+#             */
-/*   Updated: 2022/01/14 14:43:14 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/17 12:07:17 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *s1)
 	len = ft_strlen(s1);
 	result = (char *)malloc(sizeof(char) * len + 1);
 	if (!result)
-		return (NULL);
+		return (0);
 	i = 0;
 	while (s1[i])
 	{
@@ -48,7 +48,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len2 = ft_strlen(s2);
 	result = malloc(len1 + len2 + 1);
 	if (!result)
-		return (NULL);
+		return (0);
 	ft_strlcpy(result, s1, len1 + 1);
 	ft_strlcat(result + len1, s2, len2 + 1);
 	return (result);

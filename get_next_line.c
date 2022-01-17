@@ -6,7 +6,7 @@
 /*   By: woopark <woopark@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 12:24:07 by woopark           #+#    #+#             */
-/*   Updated: 2022/01/14 15:22:46 by woopark          ###   ########.fr       */
+/*   Updated: 2022/01/17 12:18:51 by woopark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,16 @@ char	*create_next_line(char **save, int index)
 	char	*result;
 	char	*tmp;
 
-	(*save)[index] = 0;
-	tmp = ft_strdup(*save);
-	result = ft_strjoin(tmp, "\n");
-	free(tmp);
-	if (*(*save + index + 1) == 0)
+	if (index == 0)
+		result = ft_strdup("\n");
+	else
+	{
+		(*save)[index] = 0;
+		tmp = ft_strdup(*save);
+		result = ft_strjoin(tmp, "\n");
+		free(tmp);
+	}
+	if ((*save)[index + 1] == 0)
 		tmp = 0;
 	else
 		tmp = ft_strdup((*save) + index + 1);
